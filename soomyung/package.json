@@ -1,0 +1,22 @@
+{
+  "name": "node_blogs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development node server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@prisma/client": "^2.12.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
