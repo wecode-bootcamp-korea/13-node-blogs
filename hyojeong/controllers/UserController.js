@@ -1,8 +1,7 @@
+const prisma = require('../prisma')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { PrismaClient } = require('@prisma/client')
-
-const prisma = new PrismaClient() 
+const AUTH_TOKEN_SALT = "secret key"
 
 const login = async (req, res) => {
   try {
@@ -24,11 +23,37 @@ const login = async (req, res) => {
       throw error
     }
 
-    const token = jwt.sign({ id }, 'node_blogs_secret_key', { expiresIn: '1h' })
+    const token = jwt.sign({ id }, AUTH_TOKEN_SALT, { expiresIn: '6h' })
     res.status(200).json({ message: 'login success', token })
   } catch (err) {
     res.status(err.statusCode).json({ message: err.message })
   }
 }
 
-module.exports = login
+const signup = async (req, res) => {
+  try {
+    const { email, password } = req.body
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    const createdUser = await prisma.users.create({
+      data: {
+        email,
+        password: hashedPassword,
+      },
+    })
+
+    res.status(201).json({
+      user: {
+        id: createdUser.id,
+        email: createdUser.email,
+      },
+    })
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+}
+
+module.exports = {
+  login,
+  signup
+}
