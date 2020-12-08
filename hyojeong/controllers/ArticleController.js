@@ -8,7 +8,7 @@ const postArticle = async (req, res, next) => {
     const createdArticle = await ArticleService.createArticle({
       user_id,
       title,
-      status : 'PUBLISHED',
+      status: 'PUBLISHED',
       body
     })
 
